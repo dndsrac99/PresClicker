@@ -1,5 +1,5 @@
 <template>
-  <v-card size="100%" class="marg" id="cardo">
+  <v-card size="100%" class="marg" id="Cardo">
     <v-toolbar
       size="100%"
       color="red darken-2"
@@ -8,7 +8,7 @@
       <v-avatar id="presPic" size="60px">
         <v-img src="..\assets\a.png"></v-img>
       </v-avatar>
-      Orbi!
+      Orbi!!
       <v-spacer></v-spacer>
       <v-tooltip bottom color="green">
         
@@ -16,7 +16,7 @@
         <template v-slot:activator="{ on, attrs }">
       <div>
         <div v-bind="attrs" v-on="on">
-        <span id="huf"> {{ huf }}</span>
+        <span id="huf"> {{$hunstats.huf}}</span>
         <v-icon color="white" style="font-size: 40px">mdi-cash</v-icon>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <div v-bind="attrs" v-on="on">
-              <span>{{ huinf }}</span>
+              <span>{{ $hunstats.hufinf }}</span>
               <v-icon color="white">mdi-account-group</v-icon>
             </div>
           </template>
@@ -36,7 +36,8 @@
       </div>
     </v-toolbar>
     <v-btn class="btn" color="success" v-on:click="meetingPuti">Meet Puti</v-btn>
-    <v-btn class="btn" color="success" v-if="huinf  >= 20" v-on:click="sPot">sell (russian) potatoes to Oposition</v-btn>
+    <v-btn class="btn" color="success" v-if="$hunstats.hufinf  >= 20" v-on:click="sPot">sell (russian) potatoes to Oposition</v-btn>
+    <v-btn class="btn" color="success" v-if="$hunstats.huf >= 100000">text</v-btn>
   </v-card>
 </template>
 
@@ -46,33 +47,40 @@ export default {
   el: "Cardo",
 
   data: () => ({
+    
     huf: 0,
     huinf: 0,
     acollecthuf:null,
     adcampaign:{
-      hufcost: 30,
+      smt: 0,
       gainspeed: 5000,
       gainamount: 1
     },
   }),
 
-  watch: {},
+  watch: {
+    '$hunstats'(){
+      this.huf = this.$hunstats.huf;
+      this.huinf = this.$hunstats.hufinf;
+    }
+  },
   computed:{
     huf: function() {
       return this.huf;
     },
     huinf: function() {
       return this.huinf;
-    }
+    },
+
   },
   methods: {
     meetingPuti: function(){
-      this.huinf = this.huinf + 2;
-      return this.huinf;
+      this.$eventBus.$emit('incrinflu',2);
     },
     sPot: function(){
-      this.huf = this.huf + 200;
-      this.huinf = this.huinf - 3;
+      this.$eventBus.$emit('dcrinf',5);
+      this.$eventBus.$emit("increasehuf",200);
+      
     },
     
   }

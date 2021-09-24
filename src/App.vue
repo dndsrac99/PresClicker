@@ -23,5 +23,29 @@ export default {
   data: () => ({
     //
   }),
+  mounted(){
+    this.$eventBus.$on('increasehuf',function(amount){
+      console.log(`ur moneh is ${this.$hunstats.huf}`)
+      this.$hunstats.huf += amount;
+    }),
+    this.$eventBus.$on('decrhuf', function(amount){
+      this.$hunstats.huf -= amount;
+    }),
+    this.$eventBus.$on('incrinflu',function(amount){
+      console.log(`ur influ is ${this.$hunstats.hufinf}`)
+      this.$hunstats.hufinf += amount;
+      
+    }),
+    this.$eventBus.$on('dcrinf',function(amount){
+      this.$hunstats.hufinf -= amount;
+    })
+    this.$eventBus.$on('autocal', function(main, speed, val){
+       let counter = null;
+       //let szam = main;
+      const SEC_MULT = 100;
+      counter = setInterval(function(){ main+= val},speed*SEC_MULT)
+      
+    })
+  }
 };
 </script>
